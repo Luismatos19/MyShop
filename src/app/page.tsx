@@ -1,103 +1,73 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import ProductGallery from "@/components/ProductGallery";
+import ProductDetails from "@/components/ProductDetails";
+import { useProductPage } from "@/hooks/useProductPage";
+import type { ProductData } from "@/types/ProductData";
+import { LoadingOverlay } from "@/components/LoadingOverlay";
+
+const PRODUCT_DATA: ProductData = {
+  title: "Tênis Esportivo Confortável",
+  sizes: ["38", "39", "40", "41", "42"],
+  colors: ["Preto", "Branco", "Azul"],
+  variants: {
+    Preto: {
+      price: 299.99,
+      images: [
+        "https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1590080877777-36eb05b08d4c?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1528701800489-564d1f8b3959?auto=format&fit=crop&w=800&q=80",
+      ],
+    },
+    Branco: {
+      price: 279.99,
+      images: [
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+      ],
+    },
+    Azul: {
+      price: 289.99,
+      images: [
+        "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1520975927815-7df96d23b9ec?auto=format&fit=crop&w=800&q=80",
+      ],
+    },
+  },
+};
+
+export default function ProductPage() {
+  const productState = useProductPage({ product: PRODUCT_DATA });
+
+  if (!productState.isHydrated) {
+    return <LoadingOverlay />;
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+    <div className="max-w-6xl mx-auto p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <ProductGallery
+        images={PRODUCT_DATA.variants[productState.selectedColor].images}
+        mainImage={productState.mainImage}
+        setMainImage={productState.setMainImage}
+      />
+      <ProductDetails
+        title={PRODUCT_DATA.title}
+        price={productState.price}
+        sizes={PRODUCT_DATA.sizes}
+        colors={PRODUCT_DATA.colors}
+        selectedSize={productState.selectedSize}
+        setSelectedSize={productState.setSelectedSize}
+        selectedColor={productState.selectedColor}
+        setSelectedColor={productState.setSelectedColor}
+        cep={productState.cep}
+        setCep={productState.setCep}
+        address={productState.address}
+        setAddress={productState.setAddress}
+        error={productState.error}
+        setError={productState.setError}
+      />
     </div>
   );
 }
