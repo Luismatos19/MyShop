@@ -44,18 +44,11 @@ export function useProductPage({ product }: UseProductPageParams) {
   }, [selectedColor, mainImage, selectedSize, cep, address, isHydrated]);
 
   useEffect(() => {
-    setMainImage(product.variants[selectedColor].images[0]);
-  }, [selectedColor, product.variants]);
-
-  useEffect(() => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({
-        timestamp: Date.now(),
-        data: { selectedColor, mainImage, selectedSize, cep, address },
-      })
-    );
-  }, [selectedColor, mainImage, selectedSize, cep, address]);
+    const imagesForColor = product.variants[selectedColor].images;
+    if (!imagesForColor.includes(mainImage)) {
+      setMainImage(imagesForColor[0]);
+    }
+  }, [selectedColor, product.variants, mainImage]);
 
   return {
     selectedColor,

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import ProductGallery from "@/components/ProductGallery";
 import ProductDetails from "@/components/ProductDetails";
@@ -14,25 +14,25 @@ const PRODUCT_DATA: ProductData = {
     Preto: {
       price: 299.99,
       images: [
-        "https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1590080877777-36eb05b08d4c?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1528701800489-564d1f8b3959?auto=format&fit=crop&w=800&q=80",
+        "/images/Preto-angle1.png",
+        "/images/Preto-angle2.png",
+        "/images/Preto-angle3.png",
       ],
     },
     Branco: {
       price: 279.99,
       images: [
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+        "/images/Branco-angle1.png",
+        "/images/Branco-angle2.png",
+        "/images/Branco-angle3.png",
       ],
     },
     Azul: {
       price: 289.99,
       images: [
-        "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1520975927815-7df96d23b9ec?auto=format&fit=crop&w=800&q=80",
+        "/images/Azul-angle1.png",
+        "/images/Azul-angle2.png",
+        "/images/Azul-angle3.png",
       ],
     },
   },

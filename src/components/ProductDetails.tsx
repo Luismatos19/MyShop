@@ -1,6 +1,12 @@
-import axios from "axios";
+import { useRouter } from "next/navigation";
 
+import Button from "@/components/ui/Button";
 import { Address } from "@/types/Address";
+import { useCart } from "@/hooks/useCart";
+import { fetchAddressService } from "@/services/addressService";
+import { SelectionGroup } from "./SelectionGroup";
+import { ShippingForm } from "./ShippingForm";
+import { createCartItem } from "@/utils/cartUtils";
 
 interface ProductDetailsProps {
   title: string;
@@ -35,23 +41,33 @@ export default function ProductDetails({
   error,
   setError,
 }: ProductDetailsProps) {
-  const handleCepSearch = async () => {
-    try {
-      const formattedCep = cep.replace(/\\D/g, "");
-      const res = await axios.get(
-        `https://viacep.com.br/ws/${formattedCep}/json/`
-      );
-      if (res.data.erro) {
-        setError("CEP não encontrado");
-        setAddress(null);
-      } else {
-        setAddress(res.data);
-        setError(null);
-      }
-    } catch (err) {
-      setError("Erro ao consultar o CEP");
+  const { addItem } = useCart();
+  const router = useRouter();
+
+  async function handleCepSearch() {
+    const addr = await fetchAddressService(cep);
+    if (addr) {
+      setAddress(addr);
+      setError(null);
+    } else {
+      setError("CEP não encontrado.");
+      setAddress(null);
     }
-  };
+  }
+
+  function handleAddToCart() {
+    if (!selectedSize || !selectedColor) {
+      setError("POr favor selecione o tamanho.");
+      return;
+    }
+
+    const item = createCartItem(title, price, selectedSize, selectedColor);
+    addItem(item);
+  }
+
+  function handleGoToCart() {
+    router.push("/cart");
+  }
 
   return (
     <div>
@@ -60,69 +76,40 @@ export default function ProductDetails({
         R$ {price.toFixed(2)}
       </p>
 
-      <div className="mb-4">
-        <h2 className="font-semibold mb-1">Tamanho</h2>
-        <div className="flex gap-2">
-          {sizes.map((size) => (
-            <button
-              key={size}
-              onClick={() => setSelectedSize(size)}
-              className={`px-4 py-2 border rounded-full ${
-                selectedSize === size
-                  ? "bg-blue-500 text-white"
-                  : "bg-white border-gray-300"
-              }`}
-            >
-              {size}
-            </button>
-          ))}
-        </div>
-      </div>
+      <SelectionGroup
+        title="Size"
+        options={sizes}
+        selected={selectedSize}
+        onSelect={setSelectedSize}
+      />
 
-      <div className="mb-4">
-        <h2 className="font-semibold mb-1">Cor</h2>
-        <div className="flex gap-2">
-          {colors.map((color) => (
-            <button
-              key={color}
-              onClick={() => setSelectedColor(color)}
-              className={`px-4 py-2 border rounded-full ${
-                selectedColor === color
-                  ? "bg-blue-500 text-white"
-                  : "bg-white border-gray-300"
-              }`}
-            >
-              {color}
-            </button>
-          ))}
-        </div>
-      </div>
+      <SelectionGroup
+        title="Color"
+        options={colors}
+        selected={selectedColor}
+        onSelect={setSelectedColor}
+      />
 
-      <div className="mb-4">
-        <h2 className="font-semibold mb-1">Consultar Frete</h2>
-        <div className="flex gap-2 items-center">
-          <input
-            type="text"
-            value={cep}
-            onChange={(e) => setCep(e.target.value)}
-            placeholder="Digite seu CEP"
-            className="border p-2 rounded-lg w-48"
-          />
-          <button
-            onClick={handleCepSearch}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg"
-          >
-            Verificar
-          </button>
-        </div>
-        {error && <p className="text-red-500 mt-1">{error}</p>}
-        {address && (
-          <p className="mt-2 text-sm text-gray-700">
-            {address.logradouro}, {address.bairro}, {address.localidade} -{" "}
-            {address.uf}
-          </p>
-        )}
-      </div>
+      <ShippingForm
+        cep={cep}
+        setCep={setCep}
+        error={error}
+        address={address}
+        handleCepSearch={handleCepSearch}
+      />
+
+      <Button
+        onClick={handleAddToCart}
+        className="w-full mt-4 bg-green-600 text-white"
+      >
+        Adicionar ao carrinho
+      </Button>
+      <Button
+        onClick={handleGoToCart}
+        className="w-full mt-4 bg-green-600 text-white"
+      >
+        Ir para o carrinho
+      </Button>
     </div>
   );
 }
