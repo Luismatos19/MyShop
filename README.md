@@ -2,7 +2,7 @@
 <h1 align="center">MYSHOP</h1>
 
 ## Descrição do Projeto
-<p align="center"> Aplicação simples que simula uma pgaina d eprodutos de ecomerce com carrinho</p>
+<p align="center"> Aplicação simples que simula uma pgaina de produtos de ecomerce com carrinho</p>
 
 
 <h4 align="center"> 
